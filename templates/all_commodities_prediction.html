@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}All Commodities Prediction{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="header">Predict for All Commodities</h2>
+    <div class="card-panel">
+        <form method="POST" action="{{ url_for('all_commodities_prediction') }}">
+            <div class="input-field col s12">
+                <select name="commodity_id" required>
+                    <option value="" disabled selected>Choose your commodity</option>
+                    {% for commodity in commodities %}
+                    <option value="{{ commodity.id }}">{{ commodity.name }} ({{ commodity.type_c }})</option>
+                    {% endfor %}
+                </select>
+                <label>Select Commodity</label>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Predict
+                <i class="material-icons right">send</i>
+            </button>
+        </form>
+    </div>
+
+    {% if prediction_recommendation %}
+    <div class="card-panel blue lighten-5">
+        <h5 class="header">Sowing Recommendation for {{ selected_commodity.name }}</h5>
+        <pre>{{ prediction_recommendation.recommendation_text }}</pre>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+</script>
+{% endblock %}

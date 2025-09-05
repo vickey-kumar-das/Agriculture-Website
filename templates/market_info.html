@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Local Market Information{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card-panel">
+        <h2>Local Market Information</h2>
+        <p>Current market prices from various mandis.</p>
+        {% if market_data %}
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Mandi Name</th>
+                    <th>Commodity</th>
+                    <th>Price (per Qtl.)</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in market_data %}
+                <tr>
+                    <td>{{ entry.mandi_name }}</td>
+                    <td>{{ entry.commodity_name }}</td>
+                    <td>₹{{ entry.price }}</td>
+                    <td>{{ entry.date.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No market information available yet. Please check back later!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="sidebar">
+        <a href="{{ url_for('admin_dashboard') }}" class="active"><i class="material-icons">dashboard</i>Dashboard</a>
+        <a href="{{ url_for('admin_users') }}"><i class="material-icons">people</i>Users</a>
+        <a href="{{ url_for('admin_crop_info') }}"><i class="material-icons">eco</i>Crops</a>
+        <a href="{{ url_for('blog') }}"><i class="material-icons">rate_review</i>Blog</a>
+        <a href="{{ url_for('admin_analytics') }}"><i class="material-icons">analytics</i>Analytics</a>
+        <a href="{{ url_for('index') }}"><i class="material-icons">web</i>Main Site</a>
+        <a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>Logout</a>
+    </div>
+    <div class="main-content">
+        <h2>Dashboard</h2>
+        <p>Welcome back, {{ session.username }}!</p>
+
+        <div class="row">
+            <div class="col s12 m6 l3">
+                <div class="stat-card">
+                    <div class="icon bg-blue">
+                        <i class="material-icons">people</i>
+                    </div>
+                    <div class="info">
+                        <h4>{{ stats.user_count }}</h4>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="stat-card">
+                    <div class="icon bg-green">
+                        <i class="material-icons">forum</i>
+                    </div>
+                    <div class="info">
+                        <h4>{{ stats.post_count }}</h4>
+                        <p>Forum Posts</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="stat-card">
+                    <div class="icon bg-orange">
+                        <i class="material-icons">rate_review</i>
+                    </div>
+                    <div class="info">
+                        <h4>{{ stats.blog_post_count }}</h4>
+                        <p>Blog Posts</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="stat-card">
+                    <div class="icon bg-red">
+                        <i class="material-icons">eco</i>
+                    </div>
+                    <div class="info">
+                        <h4>{{ stats.crop_count }}</h4>
+                        <p>Crops</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Further content can be added here, like charts or recent activity -->
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{% if post %}Edit Blog Post{% else %}Create New Blog Post{% endif %}{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card-panel">
+        <h2>{% if post %}Edit Blog Post{% else %}Create New Blog Post{% endif %}</h2>
+        <form method="POST" action="{% if post %}{{ url_for('edit_blog_post', post_id=post.id) }}{% else %}{{ url_for('create_blog_post') }}{% endif %}">
+            <div class="input-field">
+                <input type="text" id="title" name="title" value="{% if post %}{{ post.title }}{% endif %}" required>
+                <label for="title">Title</label>
+            </div>
+            <div class="input-field">
+                <textarea id="content" name="content" class="materialize-textarea" required>{% if post %}{{ post.content }}{% endif %}</textarea>
+                <label for="content">Content (HTML supported)</label>
+            </div>
+            <div class="center-align">
+                <button type="submit" class="btn waves-effect waves-light">{% if post %}Update Post{% else %}Submit Post{% endif %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

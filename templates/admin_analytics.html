@@ -1,0 +1,176 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Site Analytics - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="sidebar">
+        <a href="{{ url_for('admin_dashboard') }}"><i class="material-icons">dashboard</i>Dashboard</a>
+        <a href="{{ url_for('admin_users') }}"><i class="material-icons">people</i>Users</a>
+        <a href="{{ url_for('admin_crop_info') }}"><i class="material-icons">eco</i>Crops</a>
+        <a href="{{ url_for('blog') }}"><i class="material-icons">rate_review</i>Blog</a>
+        <a href="{{ url_for('admin_analytics') }}" class="active"><i class="material-icons">analytics</i>Analytics</a>
+        <a href="{{ url_for('index') }}"><i class="material-icons">web</i>Main Site</a>
+        <a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>Logout</a>
+    </div>
+    <div class="main-content">
+        <h2>Site Analytics</h2>
+
+        <div class="row">
+            <div class="col s12 m6 l3">
+                <div class="card glass-card" data-aos="fade-up">
+                    <div class="card-content">
+                        <span class="card-title">Unique Visitors</span>
+                        <h4>{{ unique_visitors }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l9">
+                <div class="card glass-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-content">
+                        <span class="card-title">Top Referrers</span>
+                        <div class="responsive-table-container">
+                            <table class="striped">
+                                <thead>
+                                    <tr>
+                                        <th>Referrer</th>
+                                        <th>Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for referrer, count in referrers %}
+                                    <tr>
+                                        <td>{{ referrer }}</td>
+                                        <td>{{ count }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card glass-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-content">
+                        <span class="card-title">Page Views</span>
+                        <div class="responsive-table-container">
+                            <table class="striped">
+                                <thead>
+                                    <tr>
+                                        <th>Page</th>
+                                        <th>Views</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for page, count in page_views %}
+                                    <tr>
+                                        <td>{{ page }}</td>
+                                        <td>{{ count }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6">
+                <div class="card glass-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-content">
+                        <span class="card-title">Page Views Last 7 Days</span>
+                        <canvas id="pageViewsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card glass-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card-content">
+                        <span class="card-title">Top 5 Most Viewed Pages</span>
+                        <canvas id="topPagesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Page Views Last 7 Days Chart
+        fetch('/api/analytics/page_views_by_day')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('pageViewsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Page Views',
+                            data: data.data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+
+        // Top 5 Most Viewed Pages Chart
+        fetch('/api/analytics/top_pages')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('topPagesChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Views',
+                            data: data.data,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Predict by Image - Apna Anaaj{% endblock %}
+{% block content %}
+<h2 class="header">Predict Crop Price by Image</h2>
+<p>Upload an image of a crop. The system will try to recognize the crop from the image filename and predict its current market price.</p>
+<p>For example, a file named 'my_wheat_photo.jpg' will be recognized as 'wheat'.</p>
+
+<div class="card-panel">
+  <h4 class="center-align">Predict by Image</h4>
+  <form action="/uploader" method="POST" enctype="multipart/form-data">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>Choose Image</span>
+        <input type="file" name="file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+    <div class="center-align">
+      <button class="btn waves-effect waves-light" type="submit" name="action">Predict
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

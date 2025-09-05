@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+<!-- AOS (Animate On Scroll) CSS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<!-- Google Fonts for Enhanced Typography -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Reusing the same advanced styles from contact.html */
+    body {
+        background: linear-gradient(-45deg, #23a6d5, #23d5ab, #ee7752, #e73c7e);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        color: #fff;
+        /* Subtle Background Pattern */
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMuorgvMjAwMC9zdmciPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIuMDMiIGQ9Ik0zNiAxMmg0djQwaC00VjEyeiIvPjxwYXRoIGZpbGw9IiMwMDAwMDAiIGZpbGwtb3BhY2l0eT0iLjAzIiBkPSJNMTEgMTZoNDB2NGgtNDB2LTR6TTE2IDExaDR2NDBIMTZWMTF6TTQxIDQ0aDR2NEg0MXYtNHpNMTEgNDFoNDB2NEgtNDB2LTR6Ii8+PC9nPjwvc3ZnPg==');
+        background-repeat: repeat;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.5); }
+
+    /* Enhanced Typography */
+    .container h2 { font-family: 'Roboto Slab', serif; font-weight: 700; color: #fff; margin-bottom: 40px; }
+    .container h4, .container .card-title { font-family: 'Montserrat', sans-serif; font-weight: 700; color: #fff; }
+    .glass-card .card-content p, .glass-card .card-content li { font-family: 'Montserrat', sans-serif; font-weight: 300; color: #eee; font-size: 1.1em; line-height: 1.6; }
+
+    .glass-card {
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+        color: #fff;
+        margin-bottom: 30px;
+        transition: transform .4s ease-out;
+    }
+    .glass-card:hover {
+        transform: perspective(1000px) rotateY(3deg) scale(1.05);
+    }
+
+    .glass-card .card-content .divider { background-color: rgba(255, 255, 255, 0.2); }
+    .feature-list li { margin-bottom: 15px; }
+    .feature-list i {
+        vertical-align: middle;
+        margin-right: 10px;
+        color: #ffd54f;
+    }
+    .tech-stack-icon {
+        font-size: 2.5em;
+        margin-right: 15px;
+    }
+
+    /* Section Layouts */
+    .owner-intro-card .card-content { display: flex; align-items: center; }
+    .owner-intro-card .owner-details { margin-left: 20px; }
+    .owner-intro-card img { flex-shrink: 0; }
+
+    /* Animated Counters */
+    .counter-section { text-align: center; padding: 20px 0; }
+    .counter-section .counter-value { font-family: 'Roboto Slab', serif; font-size: 3em; font-weight: 700; color: #ffd54f; }
+    .counter-section .counter-label { font-family: 'Montserrat', sans-serif; font-size: 1.2em; color: #eee; }
+
+    /* Timeline */
+    .timeline { position: relative; margin: 50px 0; }
+    .timeline::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: rgba(255, 255, 255, 0.2); margin-left: -1px; }
+    .timeline-item { margin-bottom: 50px; position: relative; }
+    .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+    .timeline-item:nth-child(even) { left: 50%; margin-left: 20px; }
+    .timeline-item-content { background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; position: relative; }
+    .timeline-item-content::before { content: ''; position: absolute; top: 20px; width: 0; height: 0; border-style: solid; }
+    .timeline-item:nth-child(odd) .timeline-item-content::before { right: -20px; border-width: 10px 0 10px 20px; border-color: transparent transparent transparent rgba(255, 255, 255, 0.1); }
+    .timeline-item:nth-child(even) .timeline-item-content::before { left: -20px; border-width: 10px 20px 10px 0; border-color: transparent rgba(255, 255, 255, 0.1) transparent transparent; }
+    .timeline-item-date { font-family: 'Roboto Slab', serif; font-weight: 700; color: #ffd54f; margin-bottom: 5px; }
+    .timeline-item-title { font-family: 'Montserrat', sans-serif; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .timeline-item-description { font-family: 'Montserrat', sans-serif; font-weight: 300; color: #eee; }
+    .timeline-item-dot { position: absolute; top: 25px; left: 50%; width: 16px; height: 16px; background: #ffd54f; border-radius: 50%; margin-left: -8px; z-index: 1; }
+</style>
+{% endblock %}
+
+{% block title %}About Us - Apna Anaaj{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="center-align" data-aos="fade-down">About Apna Anaaj</h2>
+
+    <!-- Introduction Card with Section Layouts -->
+    <div class="card glass-card owner-intro-card" data-aos="fade-up">
+        <div class="card-content">
+            <img src="{{ url_for('static', filename='owner_pic.jpg') }}" alt="Vickey Kumar Das" class="circle responsive-img" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid rgba(255,255,255,0.5);">
+            <div class="owner-details">
+                <h4>Vickey Kumar Das</h4>
+                <p style="font-style: italic;">- Project Owner & MCA Student -</p>
+                <p>Namaste! My name is Vickey Kumar Das, and I am an MCA student who wants to help farmers through technology. Apna Anaaj is one such project that I have specially created for farmers like you. It is an effort to connect technology and agriculture to build a better future.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mission & Vision Card -->
+    <div class="card glass-card" data-aos="fade-left">
+        <div class="card-content">
+            <span class="card-title"><i class="fas fa-bullseye"></i> Our Mission & Vision</span>
+            <div class="divider"></div>
+            <p>The purpose of this website is to empower farmers by providing them with accurate and timely information to make informed decisions related to farming. Our vision is to ensure every farmer receives the right knowledge, maximizing their efforts and increasing their profits.</p>
+        </div>
+    </div>
+
+    <!-- What We Offer Card -->
+    <div class="card glass-card" data-aos="fade-right">
+        <div class="card-content">
+            <span class="card-title"><i class="fas fa-cogs"></i> What Apna Anaaj Offers</span>
+            <div class="divider"></div>
+            <ul class="feature-list" style="list-style: none; padding-left: 0;">
+                <li><i class="fas fa-chart-line"></i><strong>Real-time Price Prediction:</strong> Get daily updated market prices for various crops.</li>
+                <li><i class="fas fa-seedling"></i><strong>Sowing Recommendations:</strong> Receive personalized advice on crop sowing.</li>
+                <li><i class="fas fa-camera"></i><strong>Image-based Crop Identification:</strong> Identify your crops by simply uploading a photo.</li>
+                <li><i class="fas fa-users"></i><strong>Community Forum:</strong> Connect with other farmers and share knowledge.</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Technology Stack Card -->
+    <div class="card glass-card" data-aos="fade-up">
+        <div class="card-content">
+            <span class="card-title"><i class="fas fa-laptop-code"></i> Technology Stack</span>
+            <div class="divider"></div>
+            <p>This project is built using modern technologies to provide a seamless experience:</p>
+            <div class="center-align" style="margin-top: 20px;">
+                <i class="fab fa-python tech-stack-icon" title="Python"></i>
+                <i class="fab fa-flask tech-stack-icon" title="Flask"></i>
+                <i class="fas fa-database tech-stack-icon" title="SQL"></i>
+                <i class="fab fa-css3-alt tech-stack-icon" title="CSS3"></i>
+                <i class="fab fa-js-square tech-stack-icon" title="JavaScript"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animated Counters Section -->
+    <div class="card glass-card" data-aos="fade-up">
+        <div class="card-content counter-section">
+            <span class="card-title">Our Impact</span>
+            <div class="divider"></div>
+            <div class="row" style="margin-top: 20px;">
+                <div class="col s12 m4">
+                    <div class="counter-value" data-count="5000">0</div>
+                    <div class="counter-label">Farmers Reached</div>
+                </div>
+                <div class="col s12 m4">
+                    <div class="counter-value" data-count="100">0</div>
+                    <div class="counter-label">Crops Covered</div>
+                </div>
+                <div class="col s12 m4">
+                    <div class="counter-value" data-count="2">0</div>
+                    <div class="counter-label">Years of Service</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Timeline Section (Placeholder) -->
+    <div class="card glass-card" data-aos="fade-up">
+        <div class="card-content">
+            <span class="card-title">Project Milestones</span>
+            <div class="divider"></div>
+            <div class="timeline">
+                <div class="timeline-item" data-aos="fade-right">
+                    <div class="timeline-item-dot"></div>
+                    <div class="timeline-item-content">
+                        <div class="timeline-item-date">Jan 2023</div>
+                        <div class="timeline-item-title">Project Idea Conceived</div>
+                        <div class="timeline-item-description">Initial brainstorming and research for Apna Anaaj.</div>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-left">
+                    <div class="timeline-item-dot"></div>
+                    <div class="timeline-item-content">
+                        <div class="timeline-item-date">May 2023</div>
+                        <div class="timeline-item-title">Beta Launch</div>
+                        <div class="timeline-item-description">First version of the website launched for testing.</div>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-right">
+                    <div class="timeline-item-dot"></div>
+                    <div class="timeline-item-content">
+                        <div class="timeline-item-date">Oct 2023</div>
+                        <div class="timeline-item-title">Disease Prediction Added</div>
+                        <div class="timeline-item-description">Integrated AI model for crop disease identification.</div>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-left">
+                    <div class="timeline-item-dot"></div>
+                    <div class="timeline-item-content">
+                        <div class="timeline-item-date">Current</div>
+                        <div class="timeline-item-title">Continuous Improvement</div>
+                        <div class="timeline-item-description">Adding new features and enhancing user experience.</div>
+                    </div>
+                </div>
+            </div>
+            <p class="center-align grey-text text-lighten-2">
+                (You can update these milestones with your actual project history.)
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<!-- AOS (Animate On Scroll) JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- jQuery Waypoints for scroll detection -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+<!-- Counter-Up for animated numbers -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
+<script>
+  AOS.init();
+
+  // Animated Counters Initialization
+  $('.counter-value').counterUp({
+      delay: 10,
+      time: 1000
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}User Profile{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card-panel">
+        <h2>User Profile</h2>
+        <form method="POST" action="{{ url_for('profile') }}">
+            <div class="input-field">
+                <input type="text" id="location" name="location" value="{{ user.profile.location or '' }}">
+                <label for="location">Location (City, State)</label>
+            </div>
+            <div class="input-field">
+                <input type="text" id="soil_type" name="soil_type" value="{{ user.profile.soil_type or '' }}">
+                <label for="soil_type">Soil Type</label>
+            </div>
+            <div class="input-field">
+                <input type="text" id="preferred_crops" name="preferred_crops" value="{{ user.profile.preferred_crops or '' }}">
+                <label for="preferred_crops">Preferred Crops (comma-separated)</label>
+            </div>
+            <div class="input-field">
+                <input type="text" id="price_alerts" name="price_alerts" value="{{ user.profile.price_alerts or '' }}">
+                <label for="price_alerts">Price Alerts (e.g., Wheat:2000,Rice:1500)</label>
+            </div>
+            <div class="center-align">
+                <button type="submit" class="btn waves-effect waves-light">Update Profile</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

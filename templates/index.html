@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Apna Anaaj - Your Farming Partner</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Poppins', sans-serif;
+        color: #333;
+    }
+    .main-container { padding: 0; }
+    h2, h4, h5 { font-weight: 600; color: #1a237e; }
+
+    /* Hero Section */
+    .hero {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{{ url_for('static', filename='sugarcane-311914_960_720.png') }}");
+        background-size: cover;
+        background-position: center;
+        height: 60vh;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .hero h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+    .hero .btn {
+        background-color: #ffab40;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .styled-card {
+        background: #ffffff;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        transition: transform .3s ease-out, box-shadow .3s ease-out;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .styled-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+
+    .market-table input {
+        width: 50%;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 5px 15px;
+    }
+    .market-table a { color: #1e88e5; text-transform: capitalize; font-weight: 500; }
+    .market-table a:hover { color: #1565c0; }
+
+    .nav-card { background: #fafafa; transition: background .3s; border: 1px solid #eeeeee; border-radius: 12px; }
+    .nav-card:hover { background: #fff; }
+    .nav-card .card-title { color: #333; font-size: 1.1rem; font-weight: 500; }
+    .nav-card a { color: #333; }
+
+    .page-footer {
+        background-color: #1a237e;
+        padding-top: 20px;
+    }
+    .page-footer .footer-copyright {
+        background-color: rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-container">
+
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-wrapper #ffd54f amber lighten-2">
+        <a href="{{ url_for('index') }}" class="brand-logo"><img alt="" src="/static/ApnaAnaajLogo.png" height="60px" width="60px" class="responsive-img" style="vertical-align: middle; padding-bottom: 5px;" /> APNA ANAAJ</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          {% if 'user_id' in session %}
+            <li><a href="{{ url_for('how_to_use') }}">How to Use</a></li>
+            <li><a href="{{ url_for('market_info') }}">Market Info</a></li>
+            <li><a href="{{ url_for('disease_prediction') }}">Disease Predict</a></li>
+            <li><a href="{{ url_for('yield_prediction') }}">Yield Predict</a></li>
+            {% if session['is_admin'] %}
+              <li><a href="{{ url_for('admin_dashboard') }}">Admin</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          {% else %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero" data-aos="fade-in">
+        <h1>Welcome to Apna Anaaj</h1>
+        <p>Your one-stop solution for smart farming</p>
+        <a href="#features" class="btn btn-large waves-effect waves-light">Get Started</a>
+    </div>
+
+    <div class="container" style="padding-top: 30px;">
+        <!-- Live Market Prices -->
+        <div class="card styled-card" data-aos="fade-up">
+            <div class="card-content">
+                <h5><i class="material-icons left">trending_up</i>Live Market Prices</h5>
+                <p class="grey-text">Latest prices updated daily from government mandis.</p>
+                <input type="text" id="market-search" onkeyup="filterTable()" placeholder="Search for a commodity...">
+                <table class="striped highlight responsive-table market-table" id="market-table">
+                    <thead><tr><th>Commodity</th><th>Latest Price (per Qtl.)</th><th>Market</th><th>Date</th></tr></thead>
+                    <tbody>
+                    {% for item in context.live_prices %}
+                        <tr>
+                            <td><a href="{{ url_for('crop_profile', name=item.name) }}">{{ item.name }}</a></td>
+                            {% if item.error %}
+                                <td colspan="3" class="red-text text-lighten-1">{{ item.error }}</td>
+                            {% else %}
+                                <td>₹ {{ item.price }}</td>
+                                <td>{{ item.market }}</td>
+                                <td>{{ item.date }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div id="features" class="card styled-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="card-content">
+                <h5><i class="material-icons left">explore</i>Explore Features</h5>
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col s12 m6 l3"><a href="{{ url_for('recommendation') }}"><div class="card nav-card hoverable"><div class="card-content center-align"><i class="material-icons large teal-text text-darken-1">spa</i><span class="card-title">Sowing Recommendation</span></div></div></a></div>
+                    <div class="col s12 m6 l3"><a href="{{ url_for('profile') }}"><div class="card nav-card hoverable"><div class="card-content center-align"><i class="material-icons large blue-grey-text">person</i><span class="card-title">User Profile</span></div></div></a></div>
+                    <div class="col s12 m6 l3"><a href="{{ url_for('image_prediction') }}"><div class="card nav-card hoverable"><div class="card-content center-align"><i class="material-icons large light-blue-text">camera_alt</i><span class="card-title">Image Prediction</span></div></div></a></div>
+                    <div class="col s12 m6 l3"><a href="{{ url_for('forum') }}"><div class="card nav-card hoverable"><div class="card-content center-align"><i class="material-icons large orange-text">forum</i><span class="card-title">Community Forum</span></div></div></a></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crop Grid -->
+        <div class="card styled-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="card-content">
+                <h5><i class="material-icons left">apps</i>All Commodities</h5>
+                <div class="row" style="margin-top: 20px;">
+                {% for crop in context.all_crops_info %}
+                    <div class="col s6 m4 l2">
+                        <a href="{{ url_for('crop_profile', name=crop.name) }}">
+                            <div class="card nav-card hoverable center-align" style="padding: 15px 5px;">
+                                <img src="{{ crop.image_url }}" alt="{{crop.name}}" class="circle responsive-img">
+                                <span class="card-title" style="font-size: 1rem; text-transform: capitalize;">{{ crop.name }} ({{ crop.type_c }})</span>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+            <!-- About the Owner -->
+        <div class="card styled-card" data-aos="fade-up">
+            <div class="card-content">
+                <h5><i class="material-icons left">person</i>About the Owner</h5>
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col s12 m4 center-align">
+                        <img src="{{ url_for('static', filename='images/owner pic/IMG-20241207-WA0077.jpg') }}" alt="Vickey Kumar Das" class="circle responsive-img" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #1a237e;">
+                    </div>
+                    <div class="col s12 m8">
+                        <h4>Vickey Kumar Das</h4>
+                        <p style="font-style: italic;">- Project Owner & MCA Student -</p>
+                        <p>Namaste! My name is Vickey Kumar Das, and I am an MCA student who wants to help farmers through technology. Apna Anaaj is one such project that I have specially created for farmers like you. It is an effort to connect technology and agriculture to build a better future.</p>
+                        <a href="{{ url_for('about') }}" class="btn waves-effect waves-light" style="margin-top: 15px;">Learn More</a>
+                        <a href="https://www.linkedin.com/in/vickey-kumar-das-53ba46325?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="btn waves-effect waves-light green" style="margin-top: 15px; margin-left: 10px;">Hire Me</a>
+                        <div style="margin-top: 20px;">
+                            <a href="https://www.linkedin.com/in/vickey-kumar-das-53ba46325?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" style="margin-right: 15px; color: #0077B5;"><i class="fab fa-linkedin fa-2x"></i></a>
+                            <a href="https://github.com/vickey-kumar-das" target="_blank" style="color: #333;"><i class="fab fa-github fa-2x"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Apna Anaaj</h5>
+            <p class="grey-text text-lighten-4">Helping farmers make informed decisions.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Quick Links</h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="{{ url_for('about') }}">About Us</a></li>
+              <li><a class="grey-text text-lighten-3" href="{{ url_for('contact') }}">Contact Us</a></li>
+              <li><a class="grey-text text-lighten-3" href="{{ url_for('how_to_use') }}">How to Use</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+        © 2025 Apna Anaaj | Owner: Vickey Kumar Das
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+        duration: 800,
+        once: true
+    });
+
+    function filterTable() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("market-search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("market-table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

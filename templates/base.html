@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Apna Anaaj{% endblock %}</title>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    main {
+      flex: 1 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper #ffd54f amber lighten-2">
+      <a href="{{ url_for('index') }}" class="brand-logo"><img alt="" src="/static/ApnaAnaajLogo.png" height="60px" width="60px" class="responsive-img" style="vertical-align: middle; padding-bottom: 5px;" /> APNA ANAAJ</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        {% if 'user_id' in session %}
+          <li><a href="{{ url_for('how_to_use') }}">How to Use</a></li>
+          <li><a href="{{ url_for('market_info') }}">Market Info</a></li>
+          <li><a href="{{ url_for('all_commodities_prediction') }}">All Commodities Prediction</a></li>
+          <li><a href="{{ url_for('disease_prediction') }}">Disease Predict</a></li>
+          <li><a href="{{ url_for('yield_prediction') }}">Yield Predict</a></li>
+          <li><a href="{{ url_for('blog') }}">Blog</a></li>
+          
+          <li><a href="{{ url_for('about') }}">About Us</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+          <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="card-panel {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="page-footer #ffd54f amber lighten-2">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Apna Anaaj</h5>
+          <p class="grey-text text-lighten-4">Helping farmers make informed decisions.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      © 2025 Apna Anaaj | Owner: Vickey Kumar Das | <a class="grey-text text-lighten-4" href="{{ url_for('about') }}">About Us</a>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  $(document).ready(function(){
+    setTimeout(function(){
+      $('.card-panel.success').fadeOut('slow');
+      $('.card-panel.danger').fadeOut('slow');
+      $('.card-panel.warning').fadeOut('slow');
+      $('.card-panel.info').fadeOut('slow');
+    }, 5000); // 5000ms = 5 seconds
+  });
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

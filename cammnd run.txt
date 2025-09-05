@@ -1,0 +1,8 @@
+cd C:\Users\vicke\OneDrive\Desktop\Crop_Prediction
+venv\Scripts\activate
+python app.py
+
+
+
+========================================
+

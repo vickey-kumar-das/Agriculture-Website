@@ -1,0 +1,103 @@
+/* Admin Layout */
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #2c3e50;
+    color: #ecf0f1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    color: #ecf0f1;
+    padding: 15px 20px;
+    text-decoration: none;
+    display: block;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: #34495e;
+}
+
+.sidebar a i {
+    margin-right: 10px;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background: #f4f6f9;
+}
+
+/* Stat Cards */
+.stat-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card .icon {
+    font-size: 48px;
+    padding: 15px;
+    border-radius: 50%;
+    margin-right: 20px;
+    color: #fff;
+}
+
+.stat-card .info h4 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.stat-card .info p {
+    margin: 0;
+    color: #777;
+}
+
+.bg-blue { background-color: #3498db; }
+.bg-green { background-color: #2ecc71; }
+.bg-orange { background-color: #f39c12; }
+.bg-red { background-color: #e74c3c; }
+
+/* Glassmorphism Effect */
+.glass-card {
+    background: rgba(255, 255, 255, 0.2); /* Translucent background */
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    backdrop-filter: blur(5px); /* Blur effect */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* Add transition for smooth effect */
+}
+
+.glass-card:hover {
+    transform: perspective(1000px) rotateX(5deg) rotateY(5deg) scale(1.02); /* Light 3D effect on hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* Table Improvements */
+table.striped tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* Light background on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.responsive-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}

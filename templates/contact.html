@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<!-- Font Awesome for social icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+<!-- AOS (Animate On Scroll) CSS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+    /* Point 3 & 4: Animated Gradient Background & Glassmorphism Base */
+    body {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        color: #fff; /* Change default text color to white for better contrast */
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .container h2, .container .card-title {
+        color: #fff; /* Ensure titles are white */
+    }
+
+    /* Glassmorphism Card Style */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        color: #fff;
+    }
+
+    /* Point 2: 3D Hover Effect */
+    .card.hoverable {
+        transition: transform .4s ease-out;
+    }
+    .card.hoverable:hover {
+        transform: perspective(1000px) rotateY(3deg) scale(1.05);
+    }
+
+    /* General styling for content inside cards */
+    .glass-card .card-content p, .glass-card .card-content .grey-text {
+        color: #eee;
+    }
+    .glass-card .divider {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .glass-card .input-field label {
+        color: #eee;
+    }
+    .glass-card .input-field input, .glass-card .input-field textarea {
+        color: #fff;
+        border-bottom: 1px solid #fff;
+    }
+    .glass-card .input-field .prefix {
+        color: #fff;
+    }
+
+    /* Point 3: Gradient Button */
+    .btn-gradient {
+        background-image: linear-gradient(to right, #DA4453 0%, #89216B  51%, #DA4453  100%);
+        transition: 0.5s;
+        background-size: 200% auto;
+        color: white;
+    }
+    .btn-gradient:hover {
+        background-position: right center; /* change the direction of the change here */
+    }
+
+</style>
+{% endblock %}
+
+{% block title %}Contact Me - Advanced{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="center-align" style="margin-bottom: 40px; font-weight: 300;">Contact & Connect</h2>
+    <div class="row">
+
+        <!-- Owner Card with Scroll Animation -->
+        <div class="col s12 m6" data-aos="fade-right" data-aos-duration="1000">
+            <div class="card hoverable glass-card">
+                <div class="card-content center-align">
+                    <img src="{{ url_for('static', filename='images/owner pic/Screenshot 2025-09-03 232830.png') }}" alt="Owner Picture" class="circle responsive-img" style="width: 140px; border: 4px solid rgba(255,255,255,0.5);">
+                    <h4 class="card-title" style="margin-top: 15px;">Vickey Kumar Das</h4>
+                    <p class="grey-text">Project Owner & Developer</p>
+                    <div class="divider" style="margin: 20px 0;"></div>
+                    <p><i class="material-icons left">email</i>vickeykumardas38@gmail.com</p>
+                    <p><i class="material-icons left">phone</i>+91 7256946637</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Links with Scroll Animation -->
+        <div class="col s12 m6" data-aos="fade-left" data-aos-duration="1000">
+            <div class="card hoverable glass-card">
+                <div class="card-content">
+                    <span class="card-title">Connect Online</span>
+                    <div class="divider" style="margin: 20px 0;"></div>
+                    <a href="https://www.linkedin.com/in/vickey-kumar-das-53ba46325?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="btn waves-effect waves-light" style="width:100%; margin-bottom:10px; background-color: #0077B5;"><i class="fab fa-linkedin-in left"></i>LinkedIn</a>
+                    <a href="https://github.com/vickey-kumar-das" target="_blank" class="btn waves-effect waves-light" style="width:100%; background-color: #333;"><i class="fab fa-github left"></i>GitHub</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form with Scroll Animation -->
+    <div class="row" data-aos="fade-up" data-aos-duration="1200">
+        <div class="col s12">
+            <div class="card glass-card">
+                <div class="card-content">
+                    <span class="card-title">Send a Message</span>
+                    <form>
+                        <div class="input-field"><i class="material-icons prefix">account_circle</i><input id="name" type="text" class="validate"><label for="name">Name</label></div>
+                        <div class="input-field"><i class="material-icons prefix">email</i><input id="email" type="email" class="validate"><label for="email">Email</label></div>
+                        <div class="input-field"><i class="material-icons prefix">message</i><textarea id="message" class="materialize-textarea"></textarea><label for="message">Message</label></div>
+                        <button class="btn waves-effect waves-light right btn-gradient" type="submit" name="action">Send<i class="material-icons right">send</i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AOS (Animate On Scroll) JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+{% endblock %}

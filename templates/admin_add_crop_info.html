@@ -1,0 +1,66 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Add Crop Info - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="sidebar">
+        <a href="{{ url_for('admin_dashboard') }}"><i class="material-icons">dashboard</i>Dashboard</a>
+        <a href="{{ url_for('admin_users') }}"><i class="material-icons">people</i>Users</a>
+        <a href="{{ url_for('admin_crop_info') }}" class="active"><i class="material-icons">eco</i>Crops</a>
+        <a href="{{ url_for('blog') }}"><i class="material-icons">rate_review</i>Blog</a>
+        <a href="{{ url_for('admin_analytics') }}"><i class="material-icons">analytics</i>Analytics</a>
+        <a href="{{ url_for('index') }}"><i class="material-icons">web</i>Main Site</a>
+        <a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>Logout</a>
+    </div>
+    <div class="main-content">
+        <h2>Add New Crop Information</h2>
+        <form method="POST" action="{{ url_for('admin_add_crop_info') }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Crop Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="type_c">Type</label>
+                <select class="form-control" id="type_c" name="type_c" required>
+                    <option value="Crop">Crop</option>
+                    <option value="Vegetable">Vegetable</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="optimal_temp_min">Optimal Temperature (Min)</label>
+                <input type="number" step="0.1" class="form-control" id="optimal_temp_min" name="optimal_temp_min">
+            </div>
+            <div class="form-group">
+                <label for="optimal_temp_max">Optimal Temperature (Max)</label>
+                <input type="number" step="0.1" class="form-control" id="optimal_temp_max" name="optimal_temp_max">
+            </div>
+            <div class="form-group">
+                <label for="optimal_rainfall_min">Optimal Rainfall (Min)</label>
+                <input type="number" step="0.1" class="form-control" id="optimal_rainfall_min" name="optimal_rainfall_min">
+            </div>
+            <div class="form-group">
+                <label for="optimal_rainfall_max">Optimal Rainfall (Max)</label>
+                <input type="number" step="0.1" class="form-control" id="optimal_rainfall_max" name="optimal_rainfall_max">
+            </div>
+            <div class="form-group">
+                <label for="soil_preference">Soil Preference</label>
+                <input type="text" class="form-control" id="soil_preference" name="soil_preference">
+            </div>
+            <div class="form-group">
+                <label for="fertilizer_recommendation">Fertilizer Recommendation</label>
+                <textarea class="form-control" id="fertilizer_recommendation" name="fertilizer_recommendation" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pest_control_recommendation">Pest Control Recommendation</label>
+                <textarea class="form-control" id="pest_control_recommendation" name="pest_control_recommendation" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image_file">Crop Image</label>
+                <input type="file" class="form-control-file" id="image_file" name="image_file" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Crop Info</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

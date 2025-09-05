@@ -1,0 +1,40 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Add User - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="sidebar">
+        <a href="{{ url_for('admin_dashboard') }}"><i class="material-icons">dashboard</i>Dashboard</a>
+        <a href="{{ url_for('admin_users') }}" class="active"><i class="material-icons">people</i>Users</a>
+        <a href="{{ url_for('admin_crop_info') }}"><i class="material-icons">eco</i>Crops</a>
+        <a href="{{ url_for('blog') }}"><i class="material-icons">rate_review</i>Blog</a>
+        <a href="{{ url_for('admin_analytics') }}"><i class="material-icons">analytics</i>Analytics</a>
+        <a href="{{ url_for('index') }}"><i class="material-icons">web</i>Main Site</a>
+        <a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>Logout</a>
+    </div>
+    <div class="main-content">
+        <h2>Add New User</h2>
+        <form method="POST" action="{{ url_for('admin_add_user') }}">
+            <div class="input-field">
+                <input type="text" id="username" name="username" required>
+                <label for="username">Username</label>
+            </div>
+            <div class="input-field">
+                <input type="password" id="password" name="password" required>
+                <label for="password">Password</label>
+            </div>
+            <div class="switch">
+                <label>
+                    User
+                    <input type="checkbox" id="is_admin_status" name="is_admin_status">
+                    <span class="lever"></span>
+                    Admin
+                </label>
+            </div>
+            <br>
+            <button type="submit" class="btn">Add User</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

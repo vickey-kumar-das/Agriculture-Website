@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Sowing Recommendation{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card-panel">
+        <h2>Sowing Recommendation</h2>
+        <form method="POST" action="{{ url_for('get_recommendation') }}" enctype="multipart/form-data">
+            <div class="input-field">
+                <select id="crop_name" name="crop_name">
+                    <option value="" disabled selected>Choose your option</option>
+                    {% for crop in crops %}
+                    <option value="{{ crop.name }}">{{ crop.name }}</option>
+                    {% endfor %}
+                </select>
+                <label>Select Crop</label>
+            </div>
+            <p class="center-align">OR</p>
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>Upload Crop Image</span>
+                    <input type="file" name="crop_image">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+            <div class="center-align">
+                <button type="submit" class="btn waves-effect waves-light">Get Recommendation</button>
+            </div>
+        </form>
+
+        {% if recommendation %}
+        <div class="mt-4">
+            <h3>Recommendation for {{ recommendation.crop.name }}</h3>
+            <p><strong>Recommendation Details:</strong></p>
+            <p>{{ recommendation.recommendation_text | safe }}</p>
+            <p><strong>Estimated Profit:</strong> ₹{{ recommendation.profit }}</p>
+            <p><strong>Estimated Loss:</strong> ₹{{ recommendation.loss }}</p>
+            <h4>Fertilizer Recommendation</h4>
+            <p>{{ recommendation.crop.fertilizer_recommendation }}</p>
+            <h4>Pest Control Recommendation</h4>
+            <p>{{ recommendation.crop.pest_control_recommendation }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('select').formSelect();
+    });
+</script>
+{% endblock %}

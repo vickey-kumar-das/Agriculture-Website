@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Yield Prediction{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card-panel">
+        <h2>Yield Prediction</h2>
+        <form method="POST" action="{{ url_for('yield_prediction') }}">
+            <div class="input-field">
+                <select id="crop_name" name="crop_name" required>
+                    <option value="" disabled selected>Select a crop</option>
+                    {% for crop in crops %}
+                    <option value="{{ crop.name }}">{{ crop.name }}</option>
+                    {% endfor %}
+                </select>
+                <label>Select Crop</label>
+            </div>
+            <div class="input-field">
+                <input type="text" id="location" name="location">
+                <label for="location">Location (optional)</label>
+            </div>
+            <div class="center-align">
+                <button type="submit" class="btn waves-effect waves-light">Get Yield Prediction</button>
+            </div>
+        </form>
+
+        {% if prediction_result %}
+        <div class="mt-4">
+            <h3>Prediction Result:</h3>
+            <p>{{ prediction_result }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('select').formSelect();
+    });
+</script>
+{% endblock %}

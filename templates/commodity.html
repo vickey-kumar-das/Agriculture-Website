@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}{{context.name | capitalize}} - Live Price{% endblock %}
+
+{% block content %}
+<h2 class="header" style="text-transform: capitalize;">{{context.name}}</h2>
+<div class="row">
+    <!-- Main Info Card -->
+    <div class="col s12 m12">
+        <div class="card horizontal">
+            <div class="card-image">
+                <img src="{{ context.image_url }}" alt="{{ context.name }}" style="width: 200px; height: 100%; object-fit: cover;">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <span class="card-title">Crop Details</span>
+                    <table>
+                        <tr>
+                            <td>Prime Location</td>
+                            <td><b>{{context.prime_loc}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Crop Type</td>
+                            <td><b>{{context.type_c}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Export</td>
+                            <td><b>{{context.export}}</b></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+    <!-- Live Price Card -->
+        <div class="col s12 m6">
+            <div class="card-panel teal lighten-5">
+                <h5 class="header">Live Market Data</h5>
+                {% if context.price_data.error %}
+                    <div class="card-panel red lighten-4 red-text text-darken-4">
+                        <h6>Error</h6>
+                        <p>{{ context.price_data.error }}</p>
+                    </div>
+                {% else %}
+                    <table class="striped">
+                        <tr>
+                            <td><i class="material-icons tiny">local_offer</i> Price</td>
+                            <td><b>₹ {{ context.price_data.price }} / Qtl.</b></td>
+                        </tr>
+                        <tr>
+                            <td><i class="material-icons tiny">store</i> Market</td>
+                            <td><b>{{ context.price_data.market }}</b></td>
+                        </tr>
+                        <tr>
+                            <td><i class="material-icons tiny">date_range</i> Date</td>
+                            <td><b>{{ context.price_data.date }}</b></td>
+                        </tr>
+                        <tr>
+                            <td><i class="material-icons tiny">grain</i> Commodity</td>
+                            <td><b>{{ context.price_data.commodity }}</b></td>
+                        </tr>
+                    </table>
+                    <p class="right-align grey-text">Source: data.gov.in</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Predicted Price Card -->
+        <div class="col s12 m6">
+            <div class="card-panel blue lighten-5">
+                <h5 class="header">Predicted Market Price</h5>
+                {% if context.prediction_data.error %}
+                    <div class="card-panel red lighten-4 red-text text-darken-4">
+                        <h6>Error</h6>
+                        <p>{{ context.prediction_data.error }}</p>
+                    </div>
+                {% else %}
+                    <table class="striped">
+                        <tr>
+                            <td><i class="material-icons tiny">trending_up</i> Predicted Price</td>
+                            <td><b>₹ {{ context.prediction_data.predicted_price }} / Qtl.</b></td>
+                        </tr>
+                        <tr>
+                            <td><i class="material-icons tiny">event</i> Predicted Date</td>
+                            <td><b>{{ context.prediction_data.predicted_date }}</b></td>
+                        </tr>
+                    </table>
+                    <p class="right-align grey-text">Prediction based on historical data</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add a back button -->
+<div class="row">
+    <div class="col s12">
+        <a href="{{ url_for('index') }}" class="btn waves-effect waves-light"><i class="material-icons left">arrow_back</i>Back to Home</a>
+    </div>
+</div>
+
+{% endblock %}

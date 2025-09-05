@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Create New Post{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card-panel">
+        <h2>Create New Post</h2>
+        <form method="POST" action="{{ url_for('create_post') }}">
+            <div class="input-field">
+                <input type="text" id="title" name="title" required>
+                <label for="title">Title</label>
+            </div>
+            <div class="input-field">
+                <textarea id="content" name="content" class="materialize-textarea" required></textarea>
+                <label for="content">Content</label>
+            </div>
+            <div class="center-align">
+                <button type="submit" class="btn waves-effect waves-light">Submit Post</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
